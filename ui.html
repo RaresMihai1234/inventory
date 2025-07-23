@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/inventory.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/prompt.css" />
+    <link rel="stylesheet" type="text/css" href="css/item-desc.css" />
+    <link rel="stylesheet" type="text/css" href="css/notify.css" /> -->
+    <link rel="stylesheet" href="fonts/ttnorms.css">
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v6.4.0/css/pro.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+    <title>AxR Inventory</title>
+</head>
+
+<body>
+    <div class="inventory" v-if="active">
+        <div class="exit" @click='destroy();'>
+            <div>ESC</div>
+            <p>Inchide meniul</p>
+        </div>
+        <div class="playerData">
+            <img src="assets/title.png">
+            <div class="infos">
+                <div class="info">
+                    <div><i class="fa-solid fa-fingerprint"></i></div>
+                    <p>{{playerName}}</p>
+                </div>
+                <div class="info">
+                    <div><i class="fa-solid fa-weight-hanging"></i></div>
+                    <p>{{playerWeight+'/'+playerMaxWeight+'kg'}}</p>
+                </div>
+                <div class="info" v-if="playerMoney">
+                    <div><i class="fa-solid fa-wallet"></i></div>
+                    <p>{{playerMoney | formatnumber}}$</p>
+                </div>
+            </div>
+        </div>
+        <div class="fastSlots" v-if="!refreshed && playerItems.fastSlots">
+            <div v-for="index in 5"
+                :class="{'free':!playerItems.fastSlots[index-1],'ocupied':playerItems.fastSlots[index-1]}">
+                <div class="item" data-inventory="fastSlots" :data-slot="index">
+                    <img v-if="playerItems.fastSlots[index-1]"
+                        :src="'https://cdn.axero.dev/astrix/items/'+playerItems.fastSlots[index-1].item+'.png'"
+                        onerror="this.src='assets/noimage.png'">
+                </div>
+                <div class="number">
+                    {{index}}
+                </div>
+            </div>
+        </div>
+        <div class="playerInventory" v-if="!refreshed">
+            <div class="pocket" v-if="playerItems.pocket">
+                <img src="assets/pocket_title.png">
+                <div class="row">
+                    <div class="item" v-for="index in 7" data-inventory="pocket" :data-slot="index">
+                        <img v-if="playerItems.pocket[index-1]"
+                            :src="'https://cdn.axero.dev/astrix/items/'+playerItems.pocket[index-1].item+'.png'"
+                            onerror="this.src='assets/noimage.png'">
+                        <div class="amount" v-if="playerItems.pocket[index-1]">
+                            {{playerItems.pocket[index-1].amount < 100 && playerItems.pocket[index-1].amount || '+99' }}
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="backpack" v-if="playerItems.backpack">
+                    <img src="assets/backpack_title.png">
+
+                    <div class="row" v-for="index in 6" :class="{'blured':!playerItems.clothes}">
+                        <div v-for="index2 in 7" data-inventory="backpack" :data-slot="(((index-1)*7)+index2)"
+                            class="item">
+                            <img v-if="playerItems.backpack[(((index-1)*7)+index2-1)]"
+                                :src="'https://cdn.axero.dev/astrix/items/'+playerItems.backpack[(((index-1)*7)+index2-1)].item+'.png'"
+                                onerror="this.src='assets/noimage.png'">
+                            <div class="amount" v-if="playerItems.backpack[(((index-1)*7)+index2-1)]">
+                                {{playerItems.backpack[(((index-1)*7)+index2-1)].amount < 100 &&
+                                    playerItems.backpack[(((index-1)*7)+index2-1)].amount || '+99' }} </div>
+                            </div>
+                        </div>
+                        <img src="assets/no_backpack.png" class="no_backpack" v-if="!playerItems.clothes">
+                    </div>
+                </div>
+                
+                <div class="otherPlayer" v-if="!refreshed && otherInventory == 'otherPlayer' && otherPlayer">
+                    <div class="fastSlots" v-if="!refreshed && playerItems.fastSlots">
+                        <div v-for="index in 5"
+                            :class="{'free':!otherPlayer.fastSlots[index-1],'ocupied':otherPlayer.fastSlots[index-1]}">
+                            <div class="item" data-inventory="other-fastSlots" :data-slot="index">
+                                <img v-if="otherPlayer.fastSlots[index-1]"
+                                    :src="'https://cdn.axero.dev/astrix/items/'+otherPlayer.fastSlots[index-1].item+'.png'"
+                                    onerror="this.src='assets/noimage.png'">
+                            </div>
+                            <div class="number">
+                                {{index}}
+                            </div>
+                        </div>
+                    </div>
+                    <img src="assets/player_title.png">
+                     <div class="pocket">
+                        <img src="assets/pocket_title.png">
+                        <div class="row">
+                            <div class="item" v-for="index in 7" data-inventory="other-pocket" :data-slot="index">
+                                <img v-if="otherPlayer.pocket[index-1]"
+                                    :src="'https://cdn.axero.dev/astrix/items/'+otherPlayer.pocket[index-1].item+'.png'"
+                                    onerror="this.src='assets/noimage.png'">
+                                <div class="amount" v-if="otherPlayer.pocket[index-1]">
+                                    {{otherPlayer.pocket[index-1].amount < 100 && otherPlayer.pocket[index-1].amount
+                                        || otherPlayer.pocket[index-1].amount }} </div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="backpack">
+                            <img src="assets/backpack_title.png">
+
+                            <div class="row" v-for="index in 6" :class="{'blured':!otherPlayer.clothes}">
+                                <div v-for="index2 in 7" data-inventory="other-backpack"
+                                    :data-slot="(((index-1)*7)+index2)" class="item">
+                                    <img v-if="otherPlayer.backpack[(((index-1)*7)+index2-1)]"
+                                        :src="'https://cdn.axero.dev/astrix/items/'+otherPlayer.backpack[(((index-1)*7)+index2-1)].item+'.png'"
+                                        onerror="this.src='assets/noimage.png'">
+                                    <div class="amount" v-if="otherPlayer.backpack[(((index-1)*7)+index2-1)]">
+                                        {{otherPlayer.backpack[(((index-1)*7)+index2-1)].amount < 100 &&
+                                            otherPlayer.backpack[(((index-1)*7)+index2-1)].amount || otherPlayer.backpack[(((index-1)*7)+index2-1)].amount }} </div>
+                                    </div>
+                                </div>
+                                <img src="assets/no_backpack_player.png" class="no_backpack"
+                                    v-if="!otherPlayer.clothes">
+                            </div> 
+                        </div>
+
+                        <div class="playerCharacter" v-if="otherInventory == 'none'">
+                            <p>{{clothesTitle}}</p>
+                            <div class="options" v-if="clothes">
+                                <div class="option" :class="{'item':playerItems.jewellery[data.clothId]}"
+                                    v-for="(data,index) in clothes.column1" :data-slot="data.clothId"
+                                    :data-clothId="data.clothId" data-inventory='jewellery' :data-command="data.command"
+                                    @click="toogleClothes(data.command);">
+                                    <img :src="'assets/clothes/'+data.img" onerror="this.src='assets/noimage.png'"
+                                        v-if="playerItems.jewellery && !playerItems.jewellery[data.clothId]">
+                                    <img :src="'https://cdn.axero.dev/astrix/items/'+playerItems.jewellery[data.clothId].item+'.png'"
+                                        onerror="this.src='assets/noimage.png'"
+                                        v-if="playerItems.jewellery && playerItems.jewellery[data.clothId]">
+                                </div>
+                            </div>
+                            <img src="assets/human_body.png">
+                            <div class="options" v-if="clothes">
+                                <div class="option" v-for="(data,index) in clothes.column2" :data-clothId="data.clothId"
+                                    :class="{'item':playerItems.jewellery[data.clothId]}" :data-slot="data.clothId"
+                                    data-inventory='jewellery' :data-command="data.command" data-inventory="jewellery"
+                                    v-if="data.command!='backpack'" @click="toogleClothes(data.command);">
+                                    <img :src="'assets/clothes/'+data.img" onerror="this.src='assets/noimage.png'"
+                                        v-if="playerItems.jewellery && !playerItems.jewellery[data.clothId]">
+                                    <img :src="'https://cdn.axero.dev/astrix/items/'+playerItems.jewellery[data.clothId].item+'.png'"
+                                        onerror="this.src='assets/noimage.png'"
+                                        v-if="playerItems.jewellery && playerItems.jewellery[data.clothId]">
+                                </div>
+                                <div class="option" v-for="(data,index) in clothes.column2" :data-clothId="data.clothId"
+                                    :data-command="data.command" data-inventory="clothes"
+                                    v-if="data.command=='backpack'"
+                                    :class="{'item':data.command=='backpack' && playerItems.clothes!= null}">
+                                    <img :src="'https://cdn.axero.dev/astrix/items/'+playerItems.clothes.item+'.png'"
+                                        v-if="playerItems.clothes!= null">
+                                    <img :src="'assets/clothes/'+data.img" onerror="this.src='assets/noimage.png'"
+                                        v-if="playerItems.clothes== null">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="near_players" v-if="nearPlayers">
+                            <img src="assets/players.png">
+                            <div class="box">
+                                <div class="user" v-for="(data,index) in nearPlayers" :key='index'>
+                                    <p>{{data.name}} ({{data.user_id}})</p>
+                                    <div class="check_player" @click="checkPlayer(data)">
+                                        Check Player
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="trunk" v-if="otherInventory == 'trunk'">
+                            <div class="upper">
+                                <div class="weight">
+                                    <div><i class="fa-solid fa-weight-hanging"></i></div>
+                                    <p>{{otherWeight + '/' + otherMaxWeight + 'KG'}}</p>
+                                </div>
+                                <img src="assets/trunk_title.png">
+                            </div>
+                            <div class="row" v-for="index in 6">
+                                <div class="item" v-for="index2 in 7" data-inventory="trunk"
+                                    :data-slot="(((index-1)*7)+index2)">
+                                    <img v-if="otherItems[(((index-1)*7)+index2-1)]"
+                                        :src="'https://cdn.axero.dev/astrix/items/'+otherItems[(((index-1)*7)+index2-1)].item+'.png'"
+                                        onerror="this.src='assets/noimage.png'">
+                                    <div class="amount" v-if="otherItems[(((index-1)*7)+index2-1)]">
+                                        {{otherItems[(((index-1)*7)+index2-1)].amount < 100 &&
+                                            otherItems[(((index-1)*7)+index2-1)].amount || otherItems[(((index-1)*7)+index2-1)].amount }} </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glovebox" v-if="otherInventory == 'glovebox'">
+                                <div class="upper">
+                                    <div class="weight">
+                                        <div><i class="fa-solid fa-weight-hanging"></i></div>
+                                        <p>{{otherWeight + '/' + otherMaxWeight + 'KG'}}</p>
+                                    </div>
+                                    <img src="assets/glovebox_title.png">
+                                </div>
+                                <div class="row" v-for="index in 2">
+                                    <div class="item" v-for="index2 in 7" data-inventory="glovebox"
+                                        :data-slot="(((index-1)*7)+index2)">
+                                        <img v-if="otherItems[(((index-1)*7)+index2-1)]"
+                                            :src="'https://cdn.axero.dev/astrix/items/'+otherItems[(((index-1)*7)+index2-1)].item+'.png'"
+                                            onerror="this.src='assets/noimage.png'">
+                                        <div class="amount" v-if="otherItems[(((index-1)*7)+index2-1)]">
+                                            {{otherItems[(((index-1)*7)+index2-1)].amount < 100 &&
+                                                otherItems[(((index-1)*7)+index2-1)].amount || otherItems[(((index-1)*7)+index2-1)].amount }} </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chest" v-if="otherInventory == 'chest'">
+                                    <div class="upper">
+                                        <div class="weight">
+                                            <div><i class="fa-solid fa-weight-hanging"></i></div>
+                                            <p>{{otherWeight + '/' + otherMaxWeight + 'KG'}}</p>
+                                        </div>
+                                        <img src="assets/chest_title.png">
+                                    </div>
+                                    <div class="row" v-for="index in 6">
+                                        <div class="item" v-for="index2 in 7" data-inventory="chest"
+                                            :data-slot="(((index-1)*7)+index2)">
+                                            <img v-if="otherItems[(((index-1)*7)+index2-1)]"
+                                                :src="'https://cdn.axero.dev/astrix/items/'+otherItems[(((index-1)*7)+index2-1)].item+'.png'"
+                                                onerror="this.src='assets/noimage.png'">
+                                            <div class="amount" v-if="otherItems[(((index-1)*7)+index2-1)]">
+                                                {{otherItems[(((index-1)*7)+index2-1)].amount < 100 &&
+                                                    otherItems[(((index-1)*7)+index2-1)].amount || otherItems[(((index-1)*7)+index2-1)].amount }} </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="notify" v-show="notify.show">
+                                        <p>{{notify.message}}</p>
+                                    </div>
+
+                                    <div class="itemDesc" v-show="itemDesc.show">
+                                        <div class="upper">
+                                            <div class="circle"></div>
+                                            {{itemDesc.name}}
+                                        </div>
+                                        <div class="info" v-if="itemDesc.item">
+                                            <div class="weight">
+                                                <div class="line"></div>
+                                                <img :src="'https://cdn.axero.dev/astrix/items/'+itemDesc.item+'.png'" alt="">
+                                                <p>X {{itemDesc.amount}} ({{itemDesc.amount*itemDesc.weight}}kg)</p>
+                                            </div>
+                                            <div class="description">
+                                                <div class="line"></div>
+                                                <p>{{itemDesc.description}}</p>
+
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <div class="use" @click="useItem();">
+                                                <i class="fa-solid fa-computer-mouse"></i>
+                                            </div>
+                                            <div class="give" @click="giveItem();">
+                                                <i class="fa-solid fa-hand-holding-hand"></i>
+                                            </div>
+                                            <div class="trash" @click="destroyItem();">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="prompt" v-show="prompt.show">
+
+                                    </div>
+
+                                </div>
+                                <script>
+                                    Vue.filter('formatnumber', (x) => {
+                                        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                    })
+                                </script>
+                                <script src="js/config.js"></script>
+                                <script src="js/inventory.js"></script>
+</body>
+
+
+</html>

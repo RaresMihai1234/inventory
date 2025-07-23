@@ -1,0 +1,1183 @@
+@font-face {
+    font-family: TTNorms;
+    src: url(../fonts/TTNorms-Medium.woff);
+}
+
+* {
+    font-family: 'TT Norms', sans-serif;
+    font-variant-ligatures: none;
+    color: rgba(1, 1, 1, 0.8);
+    user-select: none;
+}
+
+
+html,
+body {
+    margin: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.inventory {
+    margin: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    background-image: url(../assets/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+/* playerData */
+
+.inventory>.playerData {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1vh;
+    top: 0%;
+    left: 0%;
+}
+
+.inventory>.playerData>img {
+    width: 534px;
+    animation: animLogo 1.2s forwards;
+}
+
+.inventory>.playerData>.infos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -20%;
+    margin-left: 4%;
+}
+
+.inventory>.playerData>.infos>.info {
+    display: flex;
+    align-items: center;
+    gap: 1.3vh;
+    animation: animInfo 1s forwards;
+}
+
+.inventory>.playerData>.infos>.info>div {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.6em;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.playerData>.infos>.info>div>i {
+    color: #a476c2;
+    font-size: 2.5vh;
+}
+
+.inventory>.playerData>.infos>.info>p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.8vh;
+}
+
+
+.inventory>.fastSlots {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5vh;
+    position: absolute;
+    top: 40%;
+    left: 1%;
+    animation: animFastSlots 1s forwards;
+}
+
+.inventory>.fastSlots>div {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+}
+
+.inventory>.fastSlots>div>.item {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.8em;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.inventory>.fastSlots>div>.item>img {
+    max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.fastSlots>div>.item>i {
+    font-size: 3vh;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.inventory>.fastSlots>div>.number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.8vh;
+    font-weight: bold;
+    background-color: #a476c2;
+    border-radius: 0.3em;
+}
+
+.inventory>.fastSlots>div.ocupied>.number {
+    color: white;
+    background-color: #a476c2;
+}
+
+.inventory>.fastSlots>div.free>.number {
+    color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* playerInventory */
+
+.inventory>.playerInventory {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    left: 10%;
+    top: 13%;
+    width: 45%;
+    height: 70%;
+}
+
+.inventory>.playerInventory>.pocket>img {
+    width: 420px;
+    margin-left: 50%;
+}
+
+.inventory>.playerInventory>.pocket>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 2%;
+}
+
+.inventory>.playerInventory>.pocket>.row>.item {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.8em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.playerInventory>.pocket>.row>.item>img {
+      max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.playerInventory>.pocket>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.6em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+/* backpack */
+
+.inventory>.playerInventory>.backpack {
+    position: relative;
+    margin-top: 2%;
+}
+
+.inventory>.playerInventory>.backpack>img {
+    width: 420px;
+    margin-left: 50%;
+}
+
+.inventory>.playerInventory>.backpack>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 2%;
+}
+
+.inventory>.playerInventory>.backpack>.row.blured {
+    filter: blur(5px);
+}
+
+.inventory>.playerInventory>.backpack>.no_backpack {
+    width: 270px;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+}
+
+.inventory>.playerInventory>.backpack>.row>.item{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.4em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.playerInventory>.backpack>.row>.item>img{
+     max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.playerInventory>.backpack>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.3em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+
+/* otherPlayer */
+
+.inventory>.otherPlayer {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    right: 5%;
+    top: 13%;
+    width: 45%;
+    height: 70%;
+}
+
+
+.inventory>.otherPlayer>.fastSlots{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5vh;
+    position: absolute;
+    right:-10%;
+    bottom:-10%;
+    animation: animFastSlots2 1.2s forwards;
+}
+
+.inventory>.otherPlayer>.fastSlots>div {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+}
+
+.inventory>.otherPlayer>.fastSlots>div>.item {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.5em;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.inventory>.otherPlayer>.fastSlots>div>.item>img {
+    max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.otherPlayer>.fastSlots>div>.item>i {
+    font-size: 3vh;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.inventory>.otherPlayer>.fastSlots>div>.number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.8vh;
+    font-weight: bold;
+    background-color: #7697C2;
+    border-radius: 0.3em;
+}
+
+.inventory>.otherPlayer>.fastSlots>div.ocupied>.number {
+    color: white;
+    background-color: #7697C2;
+}
+
+.inventory>.otherPlayer>.fastSlots>div.free>.number {
+    color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+.inventory>.otherPlayer>img{
+    position: absolute;   
+    width: 550px;
+    top:-20%;
+    right:-12%;
+}
+
+.inventory>.otherPlayer>.pocket>img {
+    width: 420px;
+    margin-left: -16%;
+}
+
+.inventory>.otherPlayer>.pocket>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 2%;
+}
+
+.inventory>.otherPlayer>.pocket>.row>.item {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.4em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.otherPlayer>.pocket>.row>.item>img {
+      max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.otherPlayer>.pocket>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.3em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+.inventory>.otherPlayer>.backpack {
+    position: relative;
+    margin-top: 2%;
+}
+
+.inventory>.otherPlayer>.backpack>img:nth-child(1) {
+    width: 420px;
+  margin-left: -16%;
+}
+
+.inventory>.otherPlayer>.backpack>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 2%;
+}
+
+.inventory>.otherPlayer>.backpack>.row.blured {
+    filter: blur(5px);
+}
+
+.inventory>.otherPlayer>.backpack>.no_backpack {
+    width: 270px;
+    position: absolute;
+    margin-left:50%;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+}
+
+.inventory>.otherPlayer>.backpack>.row>.item{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.4em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.otherPlayer>.backpack>.row>.item>img{
+     max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.otherPlayer>.backpack>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.3em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+/* trunk */
+
+.inventory>.trunk {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    right: 4%;
+    top: 32%;
+    width: 40%;
+    height: 70%;
+ 
+}
+.inventory>.trunk>.upper{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%;
+    
+}
+.inventory>.trunk>.upper>.weight{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:1vh;
+}
+.inventory>.trunk>.upper>.weight>div {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.3em;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.trunk>.upper>.weight>div>i {
+    color: #a476c2;
+    font-size: 2.5vh;
+}
+
+.inventory>.trunk>.upper>.weight>p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.8vh;
+}
+
+.inventory>.trunk>.upper>img {
+    width: 209px;
+    margin-left: 50%;
+}
+
+.inventory>.trunk>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 1.85%;
+}
+
+.inventory>.trunk>.row>.item {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.4em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.trunk>.row>.item>img {
+    max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.trunk>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.3em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+/* glovebox */
+
+
+.inventory>.glovebox {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    right: 4%;
+    top: 32%;
+    width: 40%;
+    height: 25%;
+}
+
+.inventory>.glovebox>.upper{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    
+}
+.inventory>.glovebox>.upper>.weight{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:1vh;
+}
+.inventory>.glovebox>.upper>.weight>div {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.3em;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.glovebox>.upper>.weight>div>i {
+    color: #a476c2;
+    font-size: 2.5vh;
+}
+
+.inventory>.glovebox>.upper>.weight>p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.8vh;
+}
+.inventory>.glovebox>.upper>img {
+    width: 319px;
+    margin-left: 0%;
+}
+
+.inventory>.glovebox>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 1.85%;
+}
+
+.inventory>.glovebox>.row>.item {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.4em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.glovebox>.row>.item>img {
+        max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.glovebox>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.3em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+
+
+/* chest */
+
+.inventory>.chest {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    right: 4%;
+    top: 32%;
+    width: 40%;
+    height: 70%;
+ 
+}
+.inventory>.chest>.upper{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 84%;
+    
+}
+.inventory>.chest>.upper>.weight{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:1vh;
+}
+.inventory>.chest>.upper>.weight>div {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.3em;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.chest>.upper>.weight>div>i {
+    color: #a476c2;
+    font-size: 2.5vh;
+}
+
+.inventory>.chest>.upper>.weight>p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.8vh;
+}
+
+.inventory>.chest>.upper>img {
+    width: 209px;
+    margin-left: 50%;
+}
+
+.inventory>.chest>.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.8vh;
+    margin-top: 1.85%;
+}
+
+.inventory>.chest>.row>.item {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.4em;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.chest>.row>.item>img {
+       max-height: 80px;
+    max-width:80px;
+}
+
+.inventory>.chest>.row>.item>.amount {
+    position: absolute;
+    top: -10%;
+    left: -4%;
+    border-radius: 0.3em;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1vh;
+    color: white;
+    background-color: #a476c2;
+}
+
+/* playerCharacter */
+
+.inventory>.playerCharacter {
+    position: absolute;
+    width: 35%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    right: 5%;
+    top: 35%;
+}
+
+.inventory>.playerCharacter>p {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.8vh;
+    text-align: center;
+    top: -15%;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.inventory>.playerCharacter>img {
+    width: 260px;
+}
+
+.inventory>.playerCharacter>.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6vh;
+    align-items: center;
+}
+
+
+.inventory>.playerCharacter>.options>.option {
+    width: 90px;
+    height: 90px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4em;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.inventory>.playerCharacter>.options>.option:hover {
+    opacity: 0.8;
+}
+
+.inventory>.playerCharacter>.options>.option>img {
+    max-width: 60px;
+    max-height: 60px;
+}
+
+
+
+/* error notify */
+
+.inventory>.notify {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 936px;
+    background-image: url(../assets/error_notify.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.inventory>.notify>p {
+    position: absolute;
+    color: white;
+    font-size: 1.7vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 40%;
+}
+
+/* itemDesc */
+
+.inventory>.itemDesc {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    height: 10%;
+    min-width: 10%;
+    max-width: 12%;
+    /* top: 30%;
+    left: 20%; */
+}
+
+.inventory>.itemDesc>div {
+    background-color: #2F2F2F;
+    border-radius: 0.4em;
+}
+
+.inventory>.itemDesc>.upper {
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+    font-size: 1.6vh;
+    color: white;
+    padding: 1vh;
+}
+
+.inventory>.itemDesc>.upper>.circle {
+    position: relative;
+    background-color: #a12cefa1;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.itemDesc>.upper>.circle::before {
+    content: '';
+    height: 6px;
+    width: 6px;
+    background-color: #a12cef;
+    border-radius: 50%;
+}
+
+.inventory>.itemDesc>.info {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.inventory>.itemDesc>.info>div {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 5% 4%;
+    gap: 1vh;
+}
+
+.inventory>.itemDesc>.info>div>p {
+    color: white;
+}
+
+.inventory>.itemDesc>.info>div>.line {
+    width: 4px;
+    height: 100%;
+    background: #a476c2;
+    border-radius: 2em;
+}
+
+.inventory>.itemDesc>.info>.description>.line{
+    height: 80%;
+}
+
+.inventory>.itemDesc>.info>.weight {
+    position: relative;
+    height: 20%;
+}
+
+.inventory>.itemDesc>.info>.weight>img {
+    max-width: 30%;
+}
+
+.inventory>.itemDesc>.info>.description>p {
+    font-size: 1.5vh;
+}
+
+.inventory>.itemDesc>.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0.4vh;
+}
+
+.inventory>.itemDesc>.actions>div {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4em;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+.inventory>.itemDesc>.actions>div:hover {
+    opacity: 0.8;
+}
+
+.inventory>.itemDesc>.actions>div>i {
+    color: #a476c2;
+    font-size: 1.8vh;
+}
+
+.inventory>.prompt {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 830px;
+    /* height: 936px; */
+    background-image: url(../assets/prompt_bg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    gap: 1vh;
+}
+
+.inventory>.prompt>p {
+    color: white;
+    font-size: 1.6vh;
+    text-align: center;
+    width: 90%;
+    margin-left: 5%;
+    margin-top:15%;
+    font-weight: 400;
+}
+
+.inventory>.prompt>input {
+    border-radius: 0.3em;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    width: 30%;
+    padding: 1vh;
+    border:0;
+    outline:0;
+    text-align:center;
+
+}
+
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.inventory>.prompt>.options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    margin-top:2%;
+}
+
+.inventory>.prompt>.options>div {
+    padding: 0.4vh 1vh;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 2vh;
+    border-radius: 0.3em;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory>.prompt>.options>.submit {
+    background-color: #a476c2;
+}
+
+.inventory>.prompt>.options>div:hover {
+    opacity: 0.8;
+}
+
+
+/* nearest players */
+
+.inventory>.near_players{
+    margin: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2vh;
+    right: 3vh;
+    top: 1vh;
+    transition: 0.3s all;
+    width:20%;
+    height:25%;
+    animation:1s playersAnim forwards;
+}
+
+.inventory>.near_players>img{
+    width:230px;
+}
+
+.inventory>.near_players>.box{
+    position:relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:0.4vh;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width:100%;
+}
+
+.inventory>.near_players>.box>div{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding:0.3vh 0.6vh;
+    border-radius: 0.3em;
+    padding-right: 1vh;
+    width:90%;
+}
+
+.inventory>.near_players>.box>div>p{
+    font-size:1.4vh;
+    color:white;
+    font-weight: 400;
+}
+
+.inventory>.near_players>.box>div>div{
+    border-radius: 0.3em;
+    cursor: pointer;
+    transition:0.3s all;
+    background-color: rgba(0, 0, 0, 0.25);
+    color:rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:1.4vh;
+     padding:0.5vh 1vh;
+}
+
+.inventory>.near_players>.box>div>div:hover{
+    background-color: #a476c2;
+    color:rgba(255, 255, 255, 1);
+}
+
+.inventory>.near_players>.box::-webkit-scrollbar {
+    direction: ltr;
+    scroll-behavior: smooth;
+    width: 3px;
+}
+.inventory>.near_players>.box::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 69px;
+
+}
+
+.inventory>.near_players>.box::-webkit-scrollbar-thumb {
+    background-color: #a476c2;
+    border-radius: 1em;
+}
+
+
+/* exit */
+
+.inventory>.exit {
+    margin: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    left: 50%;
+    top: 4vh;
+    cursor: pointer;
+    transition: 0.3s all;
+    transform:translate(-50%,-50%)
+}
+
+.inventory>.exit:hover {
+    opacity: 0.8;
+}
+
+.inventory>.exit>div {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.6vh;
+    padding: 0.4vh 1vh;
+    border-radius: 0.3em;
+}
+
+.inventory>.exit>p {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+
+@keyframes animLogo {
+    0% {
+        opacity: 0;
+        margin-left: -50%;
+    }
+
+    100% {
+        opacity: 1;
+        margin-left: 0%;
+    }
+}
+
+
+@keyframes animInfo {
+    0% {
+        opacity: 0;
+        margin-left: -30%;
+    }
+
+    100% {
+        opacity: 1;
+        margin-left: 0%;
+    }
+}
+
+@keyframes animFastSlots {
+    0% {
+        opacity: 0;
+        left: -30%;
+    }
+
+    100% {
+        opacity: 1;
+        left: 1%;
+    }
+}
+
+@keyframes animFastSlots2 {
+    0% {
+        opacity: 0;
+        right: -30%;
+    }
+
+    100% {
+        opacity: 1;
+        right: -10%;
+    }
+}
+
+@keyframes playersAnim {
+    0% {
+        opacity: 0;
+        top: -30%;
+    }
+
+    100% {
+        opacity: 1;
+        top: 1%;
+    }
+}
